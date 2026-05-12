@@ -4,7 +4,7 @@
         <description><![CDATA[Bougie's Blog, Bougie 的博客]]></description>
         <link>https://bougieL.github.io</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 12 May 2026 12:31:51 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 12 May 2026 12:37:20 GMT</lastBuildDate>
         <atom:link href="https://bougieL.github.io/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[Bougie 2026]]></copyright>
         <language><![CDATA[zh-CN]]></language>
@@ -14,7 +14,7 @@
             <link>https://bougieL.github.io/2026/05/12/what-is-harness/</link>
             <guid isPermaLink="true">https://bougieL.github.io/2026/05/12/what-is-harness/</guid>
             <pubDate>Tue, 12 May 2026 00:00:00 GMT</pubDate>
-            <content:encoded><![CDATA[<h1 id="什么是-harness-从测试框架到-ai-agent-基础设施"> 什么是 Harness —— 从测试框架到 AI Agent 基础设施</h1> <p><img src="https://images.unsplash.com/photo-1590038667005-7d82ac6f864b?w=1200&amp;q=80" alt="harness cover" loading="lazy"></p> <h2 id="前言"> 前言</h2> <p>"Harness" 这个词在软件工程领域出现的频率越来越高。从传统的 Test Harness 到现代的 Agent Harness、Harness Engineering，这个概念在不断演进。特别是在 AI Agent 快速发展的今天，理解 Harness 的本质变得尤为重要。</p> <h2 id="什么是-harness"> 什么是 Harness？</h2> <p>Harness 的字面意思是「马具」或「驾驭」，它象征着对强大力量的控制和引导。在软件工程中，Harness 指的是围绕一个核心系统，构建的<strong>输入控制、输出约束、行为测试、反馈循环</strong>的工程框架。</p> <h3 id="核心定义"> 核心定义</h3> <blockquote><p>Harness 是一种系统级基础设施，本质是集计划、执行与学习于一体的工程化闭环体系，用于为被测对象提供可控、可观测且可重复的测试环境。</p></blockquote> <h2 id="harness-的三种形态"> Harness 的三种形态</h2> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><h3 id="_1-test-harness-测试驾驭"> 1. Test Harness（测试驾驭）</h3> <p>最经典的形态。把被测系统放入「测试套」中，提供受控输入，捕获并验证输出。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token keyword">import</span> unittest
+            <content:encoded><![CDATA[<p><img src="https://bougieL.github.io/images/2026/05/12/cover.jpeg" alt="harness cover" loading="lazy"></p> <h2 id="前言"> 前言</h2> <p>"Harness" 这个词在软件工程领域出现的频率越来越高。从传统的 Test Harness 到现代的 Agent Harness、Harness Engineering，这个概念在不断演进。特别是在 AI Agent 快速发展的今天，理解 Harness 的本质变得尤为重要。</p> <h2 id="什么是-harness"> 什么是 Harness？</h2> <p>Harness 的字面意思是「马具」或「驾驭」，它象征着对强大力量的控制和引导。在软件工程中，Harness 指的是围绕一个核心系统，构建的<strong>输入控制、输出约束、行为测试、反馈循环</strong>的工程框架。</p> <h3 id="核心定义"> 核心定义</h3> <blockquote><p>Harness 是一种系统级基础设施，本质是集计划、执行与学习于一体的工程化闭环体系，用于为被测对象提供可控、可观测且可重复的测试环境。</p></blockquote> <h2 id="harness-的三种形态"> Harness 的三种形态</h2> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><h3 id="_1-test-harness-测试驾驭"> 1. Test Harness（测试驾驭）</h3> <p>最经典的形态。把被测系统放入「测试套」中，提供受控输入，捕获并验证输出。</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token keyword">import</span> unittest
 
 <span class="token keyword">class</span> <span class="token class-name">TestHarness</span><span class="token punctuation">(</span>unittest<span class="token punctuation">.</span>TestCase<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">def</span> <span class="token function">setUp</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
