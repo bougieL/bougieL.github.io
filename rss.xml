@@ -4,10 +4,90 @@
         <description><![CDATA[Bougie's Blog, Bougie 的博客]]></description>
         <link>https://bougieL.github.io</link>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Tue, 19 May 2026 13:18:13 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 30 May 2026 00:31:41 GMT</lastBuildDate>
         <atom:link href="https://bougieL.github.io/rss.xml" rel="self" type="application/rss+xml"/>
         <copyright><![CDATA[Bougie 2026]]></copyright>
         <language><![CDATA[zh-CN]]></language>
+        <item>
+            <title><![CDATA[如何搭建个人 AI Agent]]></title>
+            <description><![CDATA[完整指南：从核心概念到实际部署，手把手教你搭建属于自己的 AI Agent]]></description>
+            <link>https://bougieL.github.io/2026/05/29/build-personal-agent/</link>
+            <guid isPermaLink="true">https://bougieL.github.io/2026/05/29/build-personal-agent/</guid>
+            <pubDate>Fri, 29 May 2026 00:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h2 id="什么是-ai-agent"> 什么是 AI Agent</h2> <p>AI Agent（人工智能代理）是一种能够自主感知环境、进行推理决策并执行动作的智能系统。与传统的问答式 AI 不同，Agent 具备以下核心能力：</p> <ul><li><strong>自主规划</strong>：将复杂任务分解为多个步骤</li> <li><strong>工具使用</strong>：调用外部工具和 API 完成特定任务</li> <li><strong>记忆存储</strong>：保留上下文和历史交互信息</li> <li><strong>多模态交互</strong>：处理文本、图像、语音等多种输入</li></ul> <p><img src="https://bougieL.github.io/images/2026/05/29/ai-brain.jpg" alt="AI Brain" loading="lazy"></p> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><h2 id="技术架构"> 技术架构</h2> <p>搭建个人 AI Agent 的核心技术架构可分为以下几个模块：</p> <h3 id="_1-大语言模型层"> 1. 大语言模型层</h3> <p><img src="https://bougieL.github.io/images/2026/05/29/server-room.jpg" alt="Server Room" loading="lazy"></p> <p>作为 Agent 的"大脑"，负责理解用户意图、进行推理和生成响应。推荐选择：</p> <ul><li>Claude 3.5 / GPT-4o：综合能力强，适合复杂推理</li> <li>开源方案：Llama 3、Qwen 2 等可私有化部署</li></ul> <h3 id="_2-工具层"> 2. 工具层</h3> <p><img src="https://bougieL.github.io/images/2026/05/29/tools-api.jpg" alt="Tools and APIs" loading="lazy"></p> <p>让 Agent 能够与外部世界交互：</p> <ul><li>搜索引擎：实时信息检索</li> <li>代码执行器：运行 Python/JS 等代码</li> <li>文件系统：读写本地文件</li> <li>API 调用：集成第三方服务</li></ul> <h3 id="_3-记忆层"> 3. 记忆层</h3> <p>实现持久化和短期记忆：</p> <ul><li>向量数据库：存储和检索长期记忆</li> <li>上下文窗口：维护当前会话的短期记忆</li></ul> <h3 id="_4-规划层"> 4. 规划层</h3> <p>实现任务的自动分解和执行：</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token comment"># 任务规划伪代码</span>
+<span class="token keyword">def</span> <span class="token function">plan_task</span><span class="token punctuation">(</span>user_goal<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    steps <span class="token operator">=</span> decompose<span class="token punctuation">(</span>user_goal<span class="token punctuation">)</span>  <span class="token comment"># 分解任务</span>
+    <span class="token keyword">for</span> step <span class="token keyword">in</span> steps<span class="token punctuation">:</span>
+        result <span class="token operator">=</span> execute<span class="token punctuation">(</span>step<span class="token punctuation">)</span>      <span class="token comment"># 执行步骤</span>
+        <span class="token keyword">if</span> needs_correction<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            steps <span class="token operator">=</span> replan<span class="token punctuation">(</span>steps<span class="token punctuation">)</span>   <span class="token comment"># 重新规划</span>
+    <span class="token keyword">return</span> final_result
+</code></pre></div><h2 id="快速开始"> 快速开始</h2> <h3 id="环境准备"> 环境准备</h3> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># Python 3.10+</span>
+python --version
+
+<span class="token comment"># 创建虚拟环境</span>
+python -m venv agent_env
+<span class="token builtin class-name">source</span> agent_env/bin/activate
+
+<span class="token comment"># 安装核心依赖</span>
+pip <span class="token function">install</span> langchain langchain-openai langchain-community
+pip <span class="token function">install</span> chromadb  <span class="token comment"># 向量数据库</span>
+pip <span class="token function">install</span> duckduckgo-search  <span class="token comment"># 搜索工具</span>
+</code></pre></div><h3 id="最小化-agent-实现"> 最小化 Agent 实现</h3> <div class="language-python extra-class"><pre class="language-python"><code><span class="token keyword">from</span> langchain<span class="token punctuation">.</span>agents <span class="token keyword">import</span> AgentExecutor<span class="token punctuation">,</span> Tool
+<span class="token keyword">from</span> langchain_core<span class="token punctuation">.</span>messages <span class="token keyword">import</span> HumanMessage
+<span class="token keyword">from</span> langchain_openai <span class="token keyword">import</span> ChatOpenAI
+
+<span class="token comment"># 定义工具</span>
+tools <span class="token operator">=</span> <span class="token punctuation">[</span>
+    Tool<span class="token punctuation">(</span>
+        name<span class="token operator">=</span><span class="token string">"search"</span><span class="token punctuation">,</span>
+        func<span class="token operator">=</span>duckduckgo_search<span class="token punctuation">,</span>
+        description<span class="token operator">=</span><span class="token string">"用于搜索实时信息"</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+    Tool<span class="token punctuation">(</span>
+        name<span class="token operator">=</span><span class="token string">"calculator"</span><span class="token punctuation">,</span>
+        func<span class="token operator">=</span>calculate<span class="token punctuation">,</span>
+        description<span class="token operator">=</span><span class="token string">"用于数学计算"</span>
+    <span class="token punctuation">)</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment"># 创建 Agent</span>
+llm <span class="token operator">=</span> ChatOpenAI<span class="token punctuation">(</span>model<span class="token operator">=</span><span class="token string">"gpt-4o"</span><span class="token punctuation">)</span>
+agent <span class="token operator">=</span> create_agent<span class="token punctuation">(</span>llm<span class="token punctuation">,</span> tools<span class="token punctuation">)</span>
+
+<span class="token comment"># 运行</span>
+result <span class="token operator">=</span> agent<span class="token punctuation">.</span>run<span class="token punctuation">(</span><span class="token string">"帮我分析 2024 年 AI 领域的主要进展"</span><span class="token punctuation">)</span>
+</code></pre></div><h2 id="mcp-协议-让-agent-更好地使用工具"> MCP 协议：让 Agent 更好地使用工具</h2> <p>MCP（Model Context Protocol）是 Anthropic 推出的开放协议，旨在标准化 AI 模型与外部工具的连接方式。</p> <h3 id="核心优势"> 核心优势</h3> <ul><li><strong>标准化</strong>：统一的工具调用接口</li> <li><strong>可扩展</strong>：轻松添加新工具</li> <li><strong>安全隔离</strong>：工具运行在独立环境</li></ul> <h3 id="使用示例"> 使用示例</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// MCP Server 配置</span>
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"mcpServers"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"filesystem"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">"command"</span><span class="token operator">:</span> <span class="token string">"npx"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"@modelcontextprotocol/server-filesystem"</span><span class="token punctuation">,</span> <span class="token string">"/path/to/dir"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"slack"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">"command"</span><span class="token operator">:</span> <span class="token string">"npx"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"args"</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token string">"@modelcontextprotocol/server-slack"</span><span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="实战项目结构"> 实战项目结构</h2> <p>一个完整的个人 Agent 项目结构：</p> <div class="language- extra-class"><pre class="language-text"><code>personal-agent/
+├── agent/              # 核心 Agent 代码
+│   ├── core.py        # Agent 核心逻辑
+│   ├── tools/         # 工具定义
+│   └── memory/        # 记忆管理
+├── mcp/               # MCP 服务器配置
+├── config/            # 配置文件
+├── tests/             # 测试用例
+├── README.md
+└── requirements.txt
+</code></pre></div><h2 id="部署与优化"> 部署与优化</h2> <h3 id="本地部署"> 本地部署</h3> <p>对于隐私敏感的应用场景，可以选择完全本地化部署：</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token comment"># 使用 Ollama 本地运行模型</span>
+ollama pull llama3
+ollama serve
+
+<span class="token comment"># 修改代码使用本地模型</span>
+llm <span class="token operator">=</span> ChatOpenAI<span class="token punctuation">(</span>base_url<span class="token operator">=</span><span class="token string">"http://localhost:11434"</span>, <span class="token assign-left variable">model</span><span class="token operator">=</span><span class="token string">"llama3"</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="云端部署"> 云端部署</h3> <p>利用云服务的弹性扩展能力：</p> <ul><li>Vercel / Railway：快速部署 Agent 服务</li> <li>AWS Lambda：事件驱动的无服务器架构</li></ul> <h3 id="性能优化建议"> 性能优化建议</h3> <ol><li><strong>缓存优化</strong>：减少重复计算</li> <li><strong>流式输出</strong>：提升用户体验</li> <li><strong>批量处理</strong>：提高吞吐量</li> <li><strong>模型蒸馏</strong>：在保持效果的同时降低延迟</li></ol> <h2 id="总结"> 总结</h2> <p><img src="https://bougieL.github.io/images/2026/05/29/personal-assistant.jpg" alt="Personal AI Assistant" loading="lazy"></p> <p>搭建个人 AI Agent 并不是一件遥不可及的事情。通过合理的技术选型和架构设计，即使是小团队甚至个人开发者，也能够构建出功能强大的 AI Agent。随着 MCP 等开放协议的不断完善，AI Agent 的生态正在变得更加开放和标准化。</p> <p>未来，每个人都可以拥有自己的 AI 助手——它了解你的习惯、熟悉你的数据、帮助你完成各种复杂任务。希望本文能够为你提供一个清晰的起点。</p> <h2 id="参考资源"> 参考资源</h2> <ul><li><a href="https://docs.langchain.com/" target="_blank" rel="noopener noreferrer">LangChain 官方文档<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">Anthropic MCP 协议<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li> <li><a href="https://platform.openai.com/docs/guides/agents" target="_blank" rel="noopener noreferrer">OpenAI Agents 指南<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul>]]></content:encoded>
+        </item>
         <item>
             <title><![CDATA[深入理解 MCP：AI 时代的统一上下文协议]]></title>
             <description><![CDATA[全面解析 Model Context Protocol（MCP）协议，探讨它如何成为 AI 应用与外部世界交互的标准。]]></description>
@@ -250,14 +330,6 @@ npx hyperframes preview
 ├── electron-builder.yml
 └── package.json
 </code></pre></div><h2 id="ipc-通信设计"> IPC 通信设计</h2> <p>IPC（Inter-Process Communication）是 Electron 架构的核心，负责主进程与渲染进程之间的数据交换。</p> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><h3 id="主要-ipc-处理器"> 主要 IPC 处理器</h3> <table><thead><tr><th>模块</th> <th>职责</th></tr></thead> <tbody><tr><td><code>pty.ts</code></td> <td>本地 PTY 进程管理（创建、输入、调整大小、关闭）</td></tr> <tr><td><code>sshPty.ts</code></td> <td>SSH PTY 连接（基于 ssh2 库）</td></tr> <tr><td><code>fs.ts</code></td> <td>文件系统操作（读取目录、搜索文件、文件监听）</td></tr> <tr><td><code>git.ts</code></td> <td>Git 操作（状态、日志、分支、工作区、标签）</td></tr> <tr><td><code>shell.ts</code></td> <td>Shell 操作（在资源管理器中打开、编辑器、外部程序）</td></tr> <tr><td><code>store.ts</code></td> <td>持久化键值存储</td></tr> <tr><td><code>window.ts</code></td> <td>窗口控制（最小化、最大化、全屏、缩放）</td></tr> <tr><td><code>system.ts</code></td> <td>系统信息（字体、IP、端口、进程管理）</td></tr> <tr><td><code>dialog.ts</code></td> <td>原生对话框（打开目录、错误提示）</td></tr></tbody></table> <h2 id="终端模拟架构"> 终端模拟架构</h2> <h3 id="本地终端"> 本地终端</h3> <p>本地终端使用 <code>node-pty</code> 库创建伪终端进程：</p> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><ul><li>支持 UTF-8 环境变量以处理国际字符</li> <li>macOS/Linux 上使用登录 Shell（<code>-l</code>）以获取完整 PATH</li> <li>PTY 可调整大小以适应终端窗口变化</li></ul> <h3 id="ssh-终端"> SSH 终端</h3> <p>SSH 连接使用 <code>ssh2</code> 库：</p> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><ul><li>支持 PTY 调整大小</li> <li>支持密码和密钥认证</li></ul> <h2 id="状态管理"> 状态管理</h2> <p>使用 Pinia 进行状态管理，主要 stores：</p> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><h3 id="workspace-store"> Workspace Store</h3> <p>管理多个工作区，每个工作区包含多个终端或 SSH 连接。支持会话持久化，启动时自动恢复工作区配置。</p> <h3 id="terminal-store"> Terminal Store</h3> <p>核心终端状态管理：</p> <ul><li>创建和管理 PTY 实例</li> <li>xterm.js 终端渲染</li> <li>SSH 连接状态</li> <li>终端数据流处理</li></ul> <h2 id="数据流"> 数据流</h2> <div class="spinner" style="background:rgb(66, 185, 131);" data-v-1bbcb91a=""></div><h2 id="monorepo-包结构"> Monorepo 包结构</h2> <table><thead><tr><th>包</th> <th>用途</th></tr></thead> <tbody><tr><td><code>shared</code></td> <td>共享类型定义、常量、平台检测、菜单快捷键、<code>ElectronAPI</code> 接口</td></tr> <tr><td><code>api</code></td> <td>API 封装层，提供 <code>getAPI()</code> 获取 API 实例，支持 Mock</td></tr> <tr><td><code>components</code></td> <td>可复用 UI 组件（BaseButton、BaseDialog、DropdownMenu 等）</td></tr> <tr><td><code>i18n</code></td> <td>国际化支持，提供 <code>t()</code> 函数</td></tr> <tr><td><code>storage</code></td> <td>数据持久化封装（<code>loadData</code>、<code>saveData</code>）</td></tr> <tr><td><code>logger</code></td> <td>结构化日志封装</td></tr> <tr><td><code>browser</code></td> <td>浏览器/书签面板组件</td></tr></tbody></table> <h2 id="关键技术选型"> 关键技术选型</h2> <ul><li><strong>构建工具</strong>: electron-vite（专为 Electron 设计的构建工具）</li> <li><strong>前端框架</strong>: Vue 3 + TypeScript + Pinia</li> <li><strong>终端模拟</strong>: xterm.js + node-pty（本地）+ ssh2（远程）</li> <li><strong>Git 操作</strong>: simple-git</li> <li><strong>持久化</strong>: electron-store</li> <li><strong>日志</strong>: electron-log</li> <li><strong>打包</strong>: electron-builder</li></ul> <h2 id="总结"> 总结</h2> <p>Terminal Manager 采用了清晰的分层架构设计：</p> <ol><li><strong>主进程</strong>负责底层系统交互（PTY、SSH、文件系统、Git）</li> <li><strong>预加载脚本</strong>作为安全桥接，只暴露必要的 API</li> <li><strong>渲染进程</strong>采用 Vue 3 + Pinia 实现 UI 和状态管理</li> <li><strong>Monorepo 结构</strong>便于包管理和代码共享</li></ol> <p>这种架构既保证了安全性（Context Isolation），又提供了强大的终端能力（原生模块支持），同时保持了前端开发体验。</p>]]></content:encoded>
-        </item>
-        <item>
-            <title><![CDATA[云南之旅]]></title>
-            <description><![CDATA[五一和几个同事去云南旅游了，也太漂亮了。暂时遗忘了社畜般的生活。]]></description>
-            <link>https://bougieL.github.io/2022/05/08/%E4%BA%91%E5%8D%97%E4%B9%8B%E6%97%85/</link>
-            <guid isPermaLink="true">https://bougieL.github.io/2022/05/08/%E4%BA%91%E5%8D%97%E4%B9%8B%E6%97%85/</guid>
-            <pubDate>Sun, 08 May 2022 00:00:00 GMT</pubDate>
-            <content:encoded><![CDATA[<p>五一和几个同事去云南旅游了，也太漂亮了。暂时遗忘了社畜般的生活。以下图片都已压缩。</p> <h2 id="大理"> 大理</h2> <p><img src="https://bougieL.github.io/images/2022/05/08/2.jpg" alt="苍山洱海" width="1200" height="900" loading="lazy"></p> <p>可以看到对面，但是想过去是真的远。骑车 5 公里只走了一点点，想去到对面估计得 50 公里以上。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/8.jpg" alt="洱海一隅" width="1200" height="743" loading="lazy"></p> <p>晚上八点还有很多人在散步。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/3.jpg" alt="大理古城" width="1200" height="900" loading="lazy"></p> <p>感觉一般，可能是天气不太好。里面很多绑脏辫的阿姨，吃的也一般，石板烧就是普通的铁板烧。</p> <h2 id="丽江"> 丽江</h2> <p><img src="https://bougieL.github.io/images/2022/05/08/4.jpg" alt="火车站" width="1200" height="900" loading="lazy"></p> <p>离开的时候拍的。</p> <h3 id="玉龙雪山"> 玉龙雪山</h3> <p><img src="https://bougieL.github.io/images/2022/05/08/6.jpg" alt="玉龙雪山栈道" width="1200" height="900" loading="lazy"></p> <p>在海拔 4000m 以上拍的，能见度很低。看来某游戏雪原还是很写实的，隔了几米就基本看不到。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/01.jpg" alt="玉龙雪山远景" width="1200" height="900" loading="lazy"></p> <p>在蓝月谷玉液泉拍的，远看雪山真的惊艳。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/5.jpg" alt="托雷特" width="1200" height="900" loading="lazy"></p> <p>纯纯的牛马，感觉它一直在坏笑。此时在<a href="https://tieba.baidu.com/p/7822009620?pid=143992351251&amp;cid=0#143992351251" target="_blank" rel="noopener noreferrer">贴吧发了个贴<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a>，没想到有这么多回复。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/7.jpg" alt="蓝月谷樱牛" width="1200" height="900" loading="lazy"></p> <iframe src="//player.bilibili.com/player.html?bvid=BV1mT4y1z7kT&amp;high_quality=1&amp;danmaku=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="allowfullscreen" class="bilibili-video"></iframe> <h3 id="丽江古城"> 丽江古城</h3> <p>网红之城。走几步就能看到一个拿着手机直播的。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/9.jpg" alt="古城观景台" width="1200" height="900" loading="lazy"></p> <p>感觉对面的台子更高一点。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/10.jpg" alt="古城公交车站" width="1200" height="900" loading="lazy"></p> <p>古城旁边的一个公交车站，和古城中间隔着一座小山丘。比起古城，这里更吸引我，在这里坐了半个小时看天空。</p> <h3 id="泸沽湖"> 泸沽湖</h3> <p>同事拍的，作为社畜提前回去加班了。</p> <p><img src="https://bougieL.github.io/images/2022/05/08/11.jpg" alt="水天一色" width="1200" height="900" loading="lazy"></p> <p>据说位于四川和云南的交界线，回来后听一个同事说他家位于四川这个湖附近。</p>]]></content:encoded>
         </item>
     </channel>
 </rss>
